@@ -22,12 +22,16 @@ def init_db():
     db = SessionLocal()
     try:
         # 1. Tạo tài khoản admin nếu chưa có
-        admin = db.query(User).filter(User.username == "admin").first()
+        import os
+        admin_username = os.getenv("ADMIN_USERNAME", "admin")
+        admin_password = os.getenv("ADMIN_PASSWORD", "123456")
+        
+        admin = db.query(User).filter(User.username == admin_username).first()
         if not admin:
             admin = User(
-                username="admin",
+                username=admin_username,
                 email="admin@example.com",
-                hashed_password=get_password_hash("123456"),
+                hashed_password=get_password_hash(admin_password),
                 full_name="Quản trị viên",
                 role="admin",
                 is_active=True
@@ -35,7 +39,7 @@ def init_db():
             db.add(admin)
             db.commit()
             db.refresh(admin)
-            print("Đã tạo tài khoản admin mặc định: admin / 123456")
+            print(f"Đã tạo tài khoản admin mặc định: {admin_username} / ***")
             
         # 2. Khởi tạo các rule mặc định nếu chưa có
         existing_rules = db.query(RuleConfig).filter(RuleConfig.is_global == True).all()
