@@ -22,10 +22,7 @@ app = FastAPI(
 
 # Cấu hình CORS
 origins = [
-    "http://localhost",
-    "http://localhost:5173", # Vite mặc định
-    "http://127.0.0.1:5173",
-    "http://localhost:3000",
+    "*", # Cho phép mọi nguồn truy cập (để dễ dàng test trên Vercel)
 ]
 
 app.add_middleware(
