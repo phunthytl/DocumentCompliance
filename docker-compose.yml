@@ -2,17 +2,49 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:8.0
+    image: postgres:15
     container_name: doc_compliance_db
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: doc_compliance
-      MYSQL_USER: doc_user
-      MYSQL_PASSWORD: doc_password
+      POSTGRES_USER: doc_user
+      POSTGRES_PASSWORD: doc_password
+      POSTGRES_DB: doc_compliance
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: doc_compliance_backend
+    environment:
+      - DATABASE_URL=postgresql://doc_user:doc_password@db:5432/doc_compliance
+      - ADMIN_EMAIL=admin@example.com
+      - ADMIN_PASSWORD=123456
+      # Khai báo AI key nếu cần chạy Docker nội bộ
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Thay thế IP_CUA_VPS bằng IP công cộng thật của VPS của bạn
+        # Ví dụ: http://103.111.222.333:8000
+        - VITE_API_URL=${VITE_API_URL:-http://localhost:8000}
+        - VITE_ONLYOFFICE_URL=${VITE_ONLYOFFICE_URL:-http://localhost:8080}
+    container_name: doc_compliance_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
     restart: unless-stopped
 
   onlyoffice:
@@ -28,4 +60,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  mysql_data:
+  postgres_data:
