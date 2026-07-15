@@ -39,7 +39,7 @@ const RuleBuilder = ({ onBack, isAdminMode = false }) => {
     const fetchRules = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:8000/api/rules/', getAuthConfig());
+            const response = await axios.get('https://documentcompliance.onrender.com/api/rules/', getAuthConfig());
             setRules(response.data);
         } catch (err) {
             setError('Không thể tải danh sách Rule.');
@@ -93,7 +93,7 @@ const RuleBuilder = ({ onBack, isAdminMode = false }) => {
         try {
             const formData = new FormData();
             formData.append('text_content', extractText);
-            const res = await axios.post('http://localhost:8000/api/rules/extract', formData, getAuthConfig());
+            const res = await axios.post('https://documentcompliance.onrender.com/api/rules/extract', formData, getAuthConfig());
             const json = res.data;
             if (json.margin_cm) setMargin(json.margin_cm);
             if (json.page_setup) setPageSetup(json.page_setup);
@@ -118,7 +118,7 @@ const RuleBuilder = ({ onBack, isAdminMode = false }) => {
         try {
             const formData = new FormData();
             formData.append('file', file);
-            const res = await axios.post('http://localhost:8000/api/rules/extract', formData, getAuthConfig());
+            const res = await axios.post('https://documentcompliance.onrender.com/api/rules/extract', formData, getAuthConfig());
             const json = res.data;
             if (json.margin_cm) setMargin(json.margin_cm);
             if (json.page_setup) setPageSetup(json.page_setup);
@@ -168,9 +168,9 @@ const RuleBuilder = ({ onBack, isAdminMode = false }) => {
             };
 
             if (editingId) {
-                await axios.put(`http://localhost:8000/api/rules/${editingId}`, payload, getAuthConfig());
+                await axios.put(`https://documentcompliance.onrender.com/api/rules/${editingId}`, payload, getAuthConfig());
             } else {
-                await axios.post('http://localhost:8000/api/rules/', payload, getAuthConfig());
+                await axios.post('https://documentcompliance.onrender.com/api/rules/', payload, getAuthConfig());
             }
 
             setIsModalOpen(false);
@@ -183,7 +183,7 @@ const RuleBuilder = ({ onBack, isAdminMode = false }) => {
     const handleDelete = async (id) => {
         if (window.confirm('Bạn có chắc chắn muốn xóa Rule này?')) {
             try {
-                await axios.delete(`http://localhost:8000/api/rules/${id}`, getAuthConfig());
+                await axios.delete(`https://documentcompliance.onrender.com/api/rules/${id}`, getAuthConfig());
                 fetchRules();
             } catch (err) {
                 alert('Có lỗi xảy ra khi xóa Rule.');
@@ -193,7 +193,7 @@ const RuleBuilder = ({ onBack, isAdminMode = false }) => {
 
     const handleMakeVip = async () => {
         try {
-            await axios.post('http://localhost:8000/api/auth/make-vip', {}, getAuthConfig());
+            await axios.post('https://documentcompliance.onrender.com/api/auth/make-vip', {}, getAuthConfig());
             localStorage.setItem('user_role', 'vip');
             setShowVipModal(false);
             alert('Tài khoản đã được nâng cấp lên VIP! Bạn có thể nhấn Phân tích AI lại.');

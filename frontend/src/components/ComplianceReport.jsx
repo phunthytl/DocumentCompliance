@@ -69,7 +69,7 @@ const ComplianceReport = ({ data, onBack, onEdit }) => {
         setFixing(true);
         try {
             const token = localStorage.getItem('token');
-            await axios.post(`http://localhost:8000/api/documents/fix/${document_id}`,
+            await axios.post(`https://documentcompliance.onrender.com/api/documents/fix/${document_id}`,
                 { fixes: fixesToApply },
                 { headers: { 'Authorization': `Bearer ${token}` } }
             );
@@ -109,7 +109,7 @@ const ComplianceReport = ({ data, onBack, onEdit }) => {
                     {fixMessage.includes('thành công') && (
                         <div className="flex items-center space-x-3 pt-2">
                             <a
-                                href={`http://localhost:8000/api/documents/download/${document_id}`}
+                                href={`https://documentcompliance.onrender.com/api/documents/download/${document_id}`}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-md flex items-center space-x-2 transition-colors shadow-sm"

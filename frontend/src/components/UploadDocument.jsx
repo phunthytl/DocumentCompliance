@@ -20,7 +20,7 @@ const UploadDocument = ({ onReportReceived }) => {
             try {
                 const token = localStorage.getItem('token');
                 const config = { headers: { Authorization: `Bearer ${token}` } };
-                const res = await axios.get('http://localhost:8000/api/rules/', config);
+                const res = await axios.get('https://documentcompliance.onrender.com/api/rules/', config);
                 const allRules = res.data;
                 const globals = allRules.filter(r => r.is_global);
                 const customs = allRules.filter(r => !r.is_global);
@@ -65,7 +65,7 @@ const UploadDocument = ({ onReportReceived }) => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:8000/api/documents/upload', formData, {
+            const response = await axios.post('https://documentcompliance.onrender.com/api/documents/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`

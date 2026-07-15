@@ -11,7 +11,7 @@ const TemplateGallery = ({ onTemplateUsed }) => {
     useEffect(() => {
         const fetchTemplates = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/api/templates', {
+                const response = await axios.get('https://documentcompliance.onrender.com/api/templates', {
                     withCredentials: true
                 });
                 setTemplates(response.data);
@@ -28,7 +28,7 @@ const TemplateGallery = ({ onTemplateUsed }) => {
     const handleUseTemplate = async (templateId) => {
         try {
             setUsingTemplateId(templateId);
-            const response = await axios.post(`http://localhost:8000/api/templates/${templateId}/use`, {}, {
+            const response = await axios.post(`https://documentcompliance.onrender.com/api/templates/${templateId}/use`, {}, {
                 withCredentials: true
             });
             

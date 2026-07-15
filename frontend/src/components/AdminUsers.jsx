@@ -12,7 +12,7 @@ const AdminUsers = () => {
     const fetchUsers = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('http://localhost:8000/api/users', {
+            const response = await axios.get('https://documentcompliance.onrender.com/api/users', {
                 withCredentials: true
             });
             setUsers(response.data);
@@ -30,7 +30,7 @@ const AdminUsers = () => {
     const handleRoleChange = async (userId, newRole) => {
         if (!window.confirm(`Bạn có chắc muốn cấp quyền ${newRole.toUpperCase()} cho user này?`)) return;
         try {
-            const res = await axios.put(`http://localhost:8000/api/users/${userId}/role`, { role: newRole }, {
+            const res = await axios.put(`https://documentcompliance.onrender.com/api/users/${userId}/role`, { role: newRole }, {
                 withCredentials: true
             });
             setSuccess(res.data.message);
@@ -44,7 +44,7 @@ const AdminUsers = () => {
     const handleToggleStatus = async (userId) => {
         if (!window.confirm(`Bạn có chắc muốn thay đổi trạng thái của user này?`)) return;
         try {
-            const res = await axios.put(`http://localhost:8000/api/users/${userId}/toggle-status`, {}, {
+            const res = await axios.put(`https://documentcompliance.onrender.com/api/users/${userId}/toggle-status`, {}, {
                 withCredentials: true
             });
             setSuccess(res.data.message);

@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:8000/api/auth/login-json', {
+      const response = await axios.post('https://documentcompliance.onrender.com/api/auth/login-json', {
         email,
         password
       });
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password, fullName) => {
     try {
-      await axios.post('http://localhost:8000/api/auth/register', {
+      await axios.post('https://documentcompliance.onrender.com/api/auth/register', {
         email,
         password,
         full_name: fullName

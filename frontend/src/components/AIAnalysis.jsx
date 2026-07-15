@@ -40,7 +40,7 @@ const AIAnalysis = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('http://localhost:8000/api/ai/analyze-content', formData, {
+            const response = await axios.post('https://documentcompliance.onrender.com/api/ai/analyze-content', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`
@@ -61,7 +61,7 @@ const AIAnalysis = () => {
     const handleMakeVip = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:8000/api/auth/make-vip', {}, {
+            await axios.post('https://documentcompliance.onrender.com/api/auth/make-vip', {}, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             localStorage.setItem('user_role', 'vip'); // Cập nhật role local

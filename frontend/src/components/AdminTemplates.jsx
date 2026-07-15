@@ -39,7 +39,7 @@ const AdminTemplates = () => {
     const fetchTemplates = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('http://localhost:8000/api/templates', {
+            const response = await axios.get('https://documentcompliance.onrender.com/api/templates', {
                 withCredentials: true
             });
             setTemplates(response.data);
@@ -80,7 +80,7 @@ const AdminTemplates = () => {
 
             if (editingId) {
                 // Sửa thông tin mẫu
-                await axios.put(`http://localhost:8000/api/templates/${editingId}`, {
+                await axios.put(`https://documentcompliance.onrender.com/api/templates/${editingId}`, {
                     name, description, category
                 }, {
                     withCredentials: true
@@ -94,7 +94,7 @@ const AdminTemplates = () => {
                 formData.append('description', description);
                 formData.append('category', category);
 
-                await axios.post('http://localhost:8000/api/templates/upload', formData, {
+                await axios.post('https://documentcompliance.onrender.com/api/templates/upload', formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true
                 });
@@ -121,7 +121,7 @@ const AdminTemplates = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("Bạn có chắc chắn muốn xóa mẫu tài liệu này? Không thể khôi phục file sau khi xóa.")) return;
         try {
-            await axios.delete(`http://localhost:8000/api/templates/${id}`, {
+            await axios.delete(`https://documentcompliance.onrender.com/api/templates/${id}`, {
                 withCredentials: true
             });
             setSuccess('Đã xóa mẫu thành công!');
