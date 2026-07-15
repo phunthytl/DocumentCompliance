@@ -23,14 +23,13 @@ def init_db():
     try:
         # 1. Tạo tài khoản admin nếu chưa có
         import os
-        admin_username = os.getenv("ADMIN_USERNAME", "admin")
+        admin_email = os.getenv("ADMIN_EMAIL", "admin@example.com")
         admin_password = os.getenv("ADMIN_PASSWORD", "123456")
         
-        admin = db.query(User).filter(User.username == admin_username).first()
+        admin = db.query(User).filter(User.email == admin_email).first()
         if not admin:
             admin = User(
-                username=admin_username,
-                email="admin@example.com",
+                email=admin_email,
                 hashed_password=get_password_hash(admin_password),
                 full_name="Quản trị viên",
                 role="admin",
@@ -39,7 +38,7 @@ def init_db():
             db.add(admin)
             db.commit()
             db.refresh(admin)
-            print(f"Đã tạo tài khoản admin mặc định: {admin_username} / ***")
+            print(f"Đã tạo tài khoản admin mặc định: {admin_email} / ***")
             
         # 2. Khởi tạo các rule mặc định nếu chưa có
         existing_rules = db.query(RuleConfig).filter(RuleConfig.is_global == True).all()
