@@ -8,7 +8,8 @@ const DocumentEditor = ({ documentData, onBack }) => {
 
     useEffect(() => {
         // Tải script API của ONLYOFFICE từ server
-        const scriptUrl = 'http://localhost:8080/web-apps/apps/api/documents/api.js';
+        const onlyOfficeUrl = import.meta.env.VITE_ONLYOFFICE_URL || 'http://localhost:8080';
+        const scriptUrl = `${onlyOfficeUrl}/web-apps/apps/api/documents/api.js`;
 
         // Nếu DocsAPI đã sẵn sàng
         if (window.DocsAPI) {
@@ -26,7 +27,7 @@ const DocumentEditor = ({ documentData, onBack }) => {
         }
 
         const handleLoad = () => setScriptLoaded(true);
-        const handleError = () => setError('Không thể kết nối đến ONLYOFFICE Server (localhost:8080). Hãy chắc chắn Docker đang chạy.');
+        const handleError = () => setError(`Không thể kết nối đến ONLYOFFICE Server (${onlyOfficeUrl}). Hãy chắc chắn nó đang chạy và có thể truy cập từ internet.`);
 
         script.addEventListener('load', handleLoad);
         script.addEventListener('error', handleError);
@@ -48,8 +49,9 @@ const DocumentEditor = ({ documentData, onBack }) => {
             }
 
             // Dùng document_id thay vì filename để Backend tự map với tên file thực tế (an toàn)
-            const documentUrl = `http://host.docker.internal:8000/api/documents/download/${documentData.document_id}`;
-            const callbackUrl = `http://host.docker.internal:8000/api/documents/callback/${documentData.document_id}`;
+            const apiUrl = import.meta.env.VITE_API_URL || 'https://documentcompliance.onrender.com';
+            const documentUrl = `${apiUrl}/api/documents/download/${documentData.document_id}`;
+            const callbackUrl = `${apiUrl}/api/documents/callback/${documentData.document_id}`;
 
             const config = {
                 document: {
