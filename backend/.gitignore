@@ -59,6 +59,7 @@ venv.bak/
 *.sqlite3
 *.db
 db.sqlite3
+!doc_compliance.db
 
 # Uploads & User generated files
 uploads/
